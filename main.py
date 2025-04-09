@@ -6,6 +6,9 @@ import re
 sys.path.append(os.path.abspath("src"))
 
 import jojo_memory as memory
+from command_handlers.reminder import add_reminder, list_reminders
+from command_handlers.task import add_task, list_tasks
+from command_handlers.note import add_note, list_notes
 
 print("👋 I’m JOJO. Talk to me or type 'exit' to stop.")
 
@@ -23,6 +26,43 @@ while True:
         if user_input.startswith(prefix):
             user_input = user_input.replace(prefix, "").strip()
             break
+
+    # === DISPATCHER — ADD ===
+    reminder_match = re.match(r"remind me to (.+?) at (.+)", user_input)
+    task_match = re.match(r"add a task to (.+)", user_input)
+    note_match = re.match(r"take a note: (.+)", user_input)
+
+    if reminder_match:
+        task = reminder_match.group(1).strip()
+        time_str = reminder_match.group(2).strip()
+        add_reminder(task, time_str)
+        print(f"JOJO: Okay, reminder set to '{task}' at '{time_str}'.")
+        continue
+
+    elif task_match:
+        description = task_match.group(1).strip()
+        add_task(description)
+        print(f"JOJO: Got it. Task added: '{description}'.")
+        continue
+
+    elif note_match:
+        content = note_match.group(1).strip()
+        add_note(content)
+        print(f"JOJO: Note taken: '{content}'.")
+        continue
+
+    # === DISPATCHER — LIST ===
+    if re.search(r"(show|list|display).*(my )?notes", user_input):
+        list_notes()
+        continue
+
+    if re.search(r"(show|list|display).*(my )?tasks", user_input):
+        list_tasks()
+        continue
+
+    if re.search(r"(show|list|display|what).*(my )?reminders", user_input):
+        list_reminders()
+        continue
 
     # === SUMMARIZE MEMORY ===
     if "summarize" in user_input or "what do you know" in user_input:
