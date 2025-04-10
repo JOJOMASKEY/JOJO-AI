@@ -1,67 +1,46 @@
 import json
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
-LOG_PATH = Path("data/gpt_usage_log.json")
-LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+USAGE_PATH = Path("data/gpt_usage.json")
+USAGE_PATH.parent.mkdir(parents=True, exist_ok=True)
 
-PRICING = {
-    "gpt-3.5-turbo": 0.0015 / 1000,  # $ per token (input + output)
-    "gpt-4": 0.03 / 1000,            # $ per token (input + output)
-    "gpt-4-turbo": 0.01 / 1000
+MODEL_COST = {
+    "gpt-3.5-turbo": 0.0001,  # dollars per call (example)
+    "gpt-4": 0.00365
 }
 
-def log_gpt_usage(model, tokens_in, tokens_out, feature):
-    cost_per_token = PRICING.get(model, 0.03 / 1000)
-    total_tokens = tokens_in + tokens_out
-    cost = round(total_tokens * cost_per_token, 6)
+def log_gpt_call(model):
+    now = datetime.now()
+    month = now.strftime("%Y-%m")
+    usage = {}
 
-    entry = {
-        "timestamp": datetime.now().isoformat(),
-        "feature": feature,
-        "model": model,
-        "tokens_in": tokens_in,
-        "tokens_out": tokens_out,
-        "cost": cost
-    }
+    if USAGE_PATH.exists():
+        with open(USAGE_PATH, "r") as f:
+            usage = json.load(f)
 
-    logs = []
-    if LOG_PATH.exists():
-        with open(LOG_PATH, "r") as f:
-            try:
-                logs = json.load(f)
-            except json.JSONDecodeError:
-                logs = []
+    if month not in usage:
+        usage[month] = {}
 
-    logs.append(entry)
+    if model not in usage[month]:
+        usage[month][model] = {"calls": 0, "cost": 0}
 
-    with open(LOG_PATH, "w") as f:
-        json.dump(logs, f, indent=2)
+    usage[month][model]["calls"] += 1
+    usage[month][model]["cost"] += MODEL_COST.get(model, 0)
 
-    return entry
-    
-from collections import defaultdict
+    with open(USAGE_PATH, "w") as f:
+        json.dump(usage, f, indent=2)
 
 def get_usage_summary():
-    if not LOG_PATH.exists():
-        return "🧾 No GPT usage has been logged yet."
+    if not USAGE_PATH.exists():
+        return "🧾 No GPT usage logged yet."
 
-    try:
-        with open(LOG_PATH, "r") as f:
-            logs = json.load(f)
-    except json.JSONDecodeError:
-        return "⚠️ GPT log file is corrupted or unreadable."
-
-    summary = defaultdict(lambda: {"calls": 0, "cost": 0.0})
-
-    for entry in logs:
-        month = entry["timestamp"][:7]  # YYYY-MM
-        model = entry["model"]
-        key = f"{month} | {model}"
-        summary[key]["calls"] += 1
-        summary[key]["cost"] += entry["cost"]
+    with open(USAGE_PATH, "r") as f:
+        usage = json.load(f)
 
     lines = ["📊 GPT Usage Summary:\n"]
-    for key, data in sorted(summary.items()):
-        lines.append(f"🗓 {key}: {data['calls']} calls, ${data['cost']:.4f}")
+    for month, data in usage.items():
+        for model, stats in data.items():
+            cost = f"${stats['cost']:.4f}"
+            lines.append(f"🗓 {month} | {model}: {stats['calls']} calls, {cost}")
     return "\n".join(lines)

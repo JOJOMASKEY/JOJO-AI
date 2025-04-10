@@ -38,5 +38,29 @@
     "tokens_in": 0,
     "tokens_out": 7,
     "cost": 1.1e-05
+  },
+  {
+    "timestamp": "2025-04-10T04:32:45.289797",
+    "feature": "fallback",
+    "model": "gpt-3.5-turbo",
+    "tokens_in": 9,
+    "tokens_out": 22,
+    "cost": 4.6e-05
+  },
+  {
+    "timestamp": "2025-04-10T04:33:47.767025",
+    "feature": "fallback",
+    "model": "gpt-3.5-turbo",
+    "tokens_in": 3,
+    "tokens_out": 53,
+    "cost": 8.4e-05
+  },
+  {
+    "timestamp": "2025-04-10T04:37:52.692632",
+    "feature": "fallback",
+    "model": "gpt-3.5-turbo",
+    "tokens_in": 4,
+    "tokens_out": 40,
+    "cost": 6.6e-05
   }
 ]
