@@ -1,33 +1,69 @@
 {
-    "favorite_color": "midnight blue",
-    "loves": [
-        "cone piece",
-        "one piece",
-        "ramen",
-        "pussy"
-    ],
-    "birth_place": "july 8 2001 9:10 am in kathmandu nepal.",
-    "village": "gorkha",
-    "birthday": "july 8",
-    "name": [
-        "nirdesh",
-        "sam"
-    ],
-    "personal_preference": [
-        "Loves hiking at sunrise",
-        "Dislikes being rushed during meals",
-        "love coding at night",
-        "Loves minimal user interfaces"
-    ],
-    "personal_belief": [
-        "Thinks productivity increases in silence",
-        "creativity comes from silence",
-        "Thinks AI should evolve"
-    ],
-    "personal_interest": "Interested in Japanese philosophy",
-    "world_fact": [
-        "The Great Wall of China stretches more than 13,000 miles.",
-        "The Great Wall of China was built over centuries by different dynasties."
-    ],
-    "auto_personal_preference": "to design wallpapers for phones and laptop"
+  "favorite_color": "midnight blue",
+  "loves": [
+    "cone piece",
+    "one piece",
+    "ramen",
+    "pussy"
+  ],
+  "birth_place": "july 8 2001 9:10 am in kathmandu nepal.",
+  "village": "gorkha",
+  "birthday": "july 8",
+  "name": [
+    "nirdesh",
+    "sam"
+  ],
+  "personal_preference": [
+    "Loves hiking at sunrise",
+    "Dislikes being rushed during meals",
+    "love coding at night",
+    "Loves minimal user interfaces",
+    "likes hiking at sunrise"
+  ],
+  "personal_belief": [
+    "Thinks productivity increases in silence",
+    "creativity comes from silence",
+    "Thinks AI should evolve",
+    "optimistic with proper support and intervention, he will gain better symptom control",
+    "anticipated that motivation will help him perform at a satisfactory level in the future"
+  ],
+  "personal_interest": [
+    "Interested in Japanese philosophy",
+    "pursuing academic pursuits"
+  ],
+  "world_fact": [
+    "The Great Wall of China stretches more than 13,000 miles.",
+    "The Great Wall of China was built over centuries by different dynasties.",
+    "University of Wisconsin\u2013Milwaukee located in Milwaukee, WI",
+    "SHAW Counseling located at 2025 E. Newport Ave., Milwaukee, WI 53201"
+  ],
+  "auto_personal_preference": "to design wallpapers for phones and laptop",
+  "personal_identity": [
+    "Name: Nirdesh Maskey",
+    {
+      "name": "Nirdesh Maskey",
+      "dob": "2001-07-08",
+      "student_id": "991468856",
+      "sevis_id": "N0034103405",
+      "university": "University of Wisconsin\u2013Milwaukee"
+    }
+  ],
+  "world_concept": [
+    "Adjustment disorder with mixed anxiety and depression",
+    "Post traumatic stress disorder"
+  ],
+  "mental_health_status": {
+    "diagnosis": "Adjustment disorder with mixed anxiety and depression",
+    "ptsd_evaluation": true,
+    "counselor": "Constance Phillips, MSW, LCSW, CSAC, ICS",
+    "clinic": "SHAW Counseling",
+    "visit_date": "2025-04-04",
+    "treatment_start": "2025-04-08T12:00:00",
+    "prognosis": "Good with ongoing treatment"
+  },
+  "academic_accommodations": {
+    "recommendation": "Reduced course load",
+    "credit_hours": 9,
+    "until": "2025-05-18"
+  }
 }

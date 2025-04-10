@@ -1,46 +1,71 @@
 import json
 from datetime import datetime
 from pathlib import Path
+from collections import defaultdict
 
-USAGE_PATH = Path("data/gpt_usage.json")
-USAGE_PATH.parent.mkdir(parents=True, exist_ok=True)
+LOG_PATH = Path("data/gpt_fallback_log.json")
+LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 
-MODEL_COST = {
-    "gpt-3.5-turbo": 0.0001,  # dollars per call (example)
-    "gpt-4": 0.00365
-}
+# === Logger ===
+def log_gpt_call(model: str, prompt_tokens: int = 0, completion_tokens: int = 0):
+    cost = estimate_cost(model, prompt_tokens, completion_tokens)
+    entry = {
+        "timestamp": datetime.now().isoformat(),
+        "model": model,
+        "prompt_tokens": prompt_tokens,
+        "completion_tokens": completion_tokens,
+        "cost": cost
+    }
 
-def log_gpt_call(model):
-    now = datetime.now()
-    month = now.strftime("%Y-%m")
-    usage = {}
+    logs = []
+    if LOG_PATH.exists():
+        with open(LOG_PATH, "r") as f:
+            try:
+                logs = json.load(f)
+            except json.JSONDecodeError:
+                logs = []
 
-    if USAGE_PATH.exists():
-        with open(USAGE_PATH, "r") as f:
-            usage = json.load(f)
+    logs.append(entry)
+    with open(LOG_PATH, "w") as f:
+        json.dump(logs, f, indent=2)
 
-    if month not in usage:
-        usage[month] = {}
+# === Estimator ===
+def estimate_cost(model: str, prompt_tokens: int, completion_tokens: int) -> float:
+    # Token costs based on OpenAI rates
+    if model == "gpt-3.5-turbo":
+        return (prompt_tokens + completion_tokens) * 0.0015 / 1000
+    elif model == "gpt-4":
+        return prompt_tokens * 0.03 / 1000 + completion_tokens * 0.06 / 1000
+    return 0.0
 
-    if model not in usage[month]:
-        usage[month][model] = {"calls": 0, "cost": 0}
+# === Summarizer ===
+def get_gpt_usage_summary():
+    if not LOG_PATH.exists():
+        return "No GPT usage logged yet."
 
-    usage[month][model]["calls"] += 1
-    usage[month][model]["cost"] += MODEL_COST.get(model, 0)
+    with open(LOG_PATH, "r") as f:
+        try:
+            logs = json.load(f)
+        except json.JSONDecodeError:
+            return "⚠️ GPT log file is corrupted."
 
-    with open(USAGE_PATH, "w") as f:
-        json.dump(usage, f, indent=2)
+    summary = defaultdict(lambda: defaultdict(lambda: {"calls": 0, "cost": 0.0}))
 
-def get_usage_summary():
-    if not USAGE_PATH.exists():
-        return "🧾 No GPT usage logged yet."
+    for log in logs:
+        try:
+            dt = datetime.fromisoformat(log["timestamp"])
+            month = dt.strftime("%Y-%m")
+            model = log["model"]
+            summary[month][model]["calls"] += 1
+            summary[month][model]["cost"] += log.get("cost", 0.0)
+        except Exception:
+            continue
 
-    with open(USAGE_PATH, "r") as f:
-        usage = json.load(f)
+    output = "📊 GPT Usage Summary:\n"
+    for month in sorted(summary.keys()):
+        for model in summary[month]:
+            calls = summary[month][model]["calls"]
+            cost = summary[month][model]["cost"]
+            output += f"\n🗓 {month} | {model}: {calls} calls, ${cost:.4f}"
 
-    lines = ["📊 GPT Usage Summary:\n"]
-    for month, data in usage.items():
-        for model, stats in data.items():
-            cost = f"${stats['cost']:.4f}"
-            lines.append(f"🗓 {month} | {model}: {stats['calls']} calls, {cost}")
-    return "\n".join(lines)
+    return output
