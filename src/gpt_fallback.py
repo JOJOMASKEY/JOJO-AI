@@ -1,13 +1,13 @@
 import os
 import openai
+import os
 import json
 from datetime import datetime
 from pathlib import Path
 from gpt_tracker import log_gpt_call
 from jojo_memory import list_all_memory
 
-# Load from .env or environment
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.environ.get('OPENAI_API_KEY')
 
 DEV_MODE = False
 DEFAULT_MODEL = "gpt-3.5-turbo"
