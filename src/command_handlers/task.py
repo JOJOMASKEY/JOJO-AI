@@ -1,20 +1,19 @@
 import json
+import re
 from datetime import datetime, timedelta
 from pathlib import Path
-import dateparser
 from fuzzywuzzy import fuzz
 
 TASK_PATH = Path("data/tasks.json")
 TASK_PATH.parent.mkdir(parents=True, exist_ok=True)
 
-def add_task(description: str, time: str = None):
+def add_task(description: str, time: str = ""):
     entry = {
         "description": description,
+        "time": time,
         "timestamp": datetime.now().isoformat(),
         "tags": ["task"]
     }
-    if time:
-        entry["due"] = time
 
     tasks = []
     if TASK_PATH.exists():
@@ -40,8 +39,21 @@ def list_tasks():
 
     print("\n📋 Your Tasks:")
     for i, task in enumerate(tasks, 1):
-        due = f" (due {task['due']})" if "due" in task else ""
-        print(f"{i}. {task['description']}{due} ({task['timestamp'][:19]})")
+        time_info = f" (due {task.get('time', '')})" if task.get("time") else ""
+        print(f"{i}. {task['description']}{time_info} ({task['timestamp'][:19]})")
+
+def extract_time_from_query(query):
+    query = query.lower().replace("at ", "").strip()
+    matches = re.findall(r'\b(\d{1,2})(am|pm)\b', query)
+    if matches:
+        hour, period = matches[0]
+        hour = int(hour)
+        if period == 'pm' and hour != 12:
+            hour += 12
+        elif period == 'am' and hour == 12:
+            hour = 0
+        return hour
+    return None
 
 def search_tasks(query: str):
     if not TASK_PATH.exists():
@@ -51,44 +63,33 @@ def search_tasks(query: str):
     with open(TASK_PATH, "r") as f:
         tasks = json.load(f)
 
-    query_words = set(query.lower().split())
-    now = datetime.now()
+    query = query.lower()
+    query_hour = extract_time_from_query(query)
+    today = datetime.now().date()
+    tomorrow = today + timedelta(days=1)
 
-    target_time = None
-    for word in query_words:
-        parsed_time = dateparser.parse(word, settings={"PREFER_DATES_FROM": "future"})
-        if parsed_time:
-            target_time = parsed_time
-            break
+    matches = []
+    for t in tasks:
+        desc = t["description"].lower()
+        time_str = t.get("time", "")
 
-    results = []
+        try:
+            time_obj = datetime.fromisoformat(time_str)
+        except (ValueError, TypeError):
+            time_obj = None
 
-    for task in tasks:
-        desc = task["description"].lower()
-        fuzzy_score = fuzz.partial_ratio(desc, query.lower())
-        match_text = fuzzy_score >= 70
+        fuzzy_score = fuzz.partial_ratio(desc, query)
+        match_hour = time_obj and query_hour is not None and time_obj.hour == query_hour
+        match_today = time_obj and "today" in query and time_obj.date() == today
+        match_tomorrow = time_obj and "tomorrow" in query and time_obj.date() == tomorrow
 
-        task_time = dateparser.parse(task.get("due")) if "due" in task else None
-        match_time = False
+        if fuzzy_score >= 60 or match_hour or match_today or match_tomorrow:
+            matches.append(t)
 
-        if "today" in query_words or "for today" in query:
-            if task_time and task_time.date() == now.date():
-                match_time = True
-        elif "tomorrow" in query_words or "for tomorrow" in query:
-            if task_time and task_time.date() == (now + timedelta(days=1)).date():
-                match_time = True
-        elif target_time and task_time:
-            delta = abs((task_time - target_time).total_seconds())
-            if delta <= 1800:
-                match_time = True
-
-        if match_text or match_time:
-            results.append(task)
-
-    if results:
+    if matches:
         print("🔍 Here's what I found in your tasks:")
-        for t in results:
-            due = f" (due {t['due']})" if "due" in t else ""
-            print(f"- {t['description']}{due}")
+        for task in matches:
+            time_info = f" (due {task.get('time', '')})" if task.get("time") else ""
+            print(f"- {task['description']}{time_info}")
     else:
         print("🔍 I couldn’t find any tasks related to that.")

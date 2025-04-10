@@ -1,0 +1,83 @@
+[
+  {
+    "query": "how do i grow basil indoors?",
+    "response": "1. Choose the right location: Basil loves warm temperatures and lots of sunlight. Choose a south-facing window that gets at least 6 hours of sunlight each day. \n\n2. Select a pot: Choose a pot that's at least 6 to 8 inches deep. The pot also needs to have good drainage holes.\n\n3. Use high-quality soil: Basil loves well-draining soil that's rich in organic matter. Using potting mix specifically designed for herbs can provide this.\n\n4. Plant the seeds: Plant the basil seeds just about 1/4 inch deep. Space them about 10 to 12 inches apart.\n\n5. Watering: Water the seeds lightly. Basil does not like to sit in overly watered soil. \n\n6. After seeds germinate, thin to one plant per pot. \n\n7. Regular Pruning: Once the plant reaches about 6 inches in height, start pruning. This will encourage the plant to grow bushier.\n\n8. Fertilizer: Feed your plants every couple of weeks with a liquid fertilizer. \n\n9. Keep away from drafts and fluctuating temperatures. \n\n10. Repotting: If your basil plant outgrows its pot, move it to a larger one. \n\nRemember to harvest often to encourage growth throughout the summer. Enjoy your fresh basil! \n\nNote: Indoor-grown basil may not be as aromatic or flavorful as outdoor-grown basil.",
+    "timestamp": "2025-04-10T03:19:41.028809",
+    "origin": "gpt-4"
+  },
+  {
+    "query": "how do i grow basil indoors?",
+    "response": "1. Choose a variety: Select a basil type that suits your culinary needs. Sweet basil is popular for cooking, while spicy globe basil is wonderful for salads.\n\n2. Start from seeds: Plant the seeds in a seed tray or directly into pots. Seeds should be planted about 1/4-inch deep and seedlings should show in about two weeks.\n\n3. Give them Light: Basil loves lots of light, ideally 6-8 hours a day. A window sill that receives plenty of sun or a grow-light can be used in the absence of natural light.\n\n4. Soil and Water: Basil needs well-draining soil to avoid waterlog. Water the basil when the top of the soil is dry to the touch. \n\n5. Temperature: Basil does well in temperatures of about 60-75 degrees Fahrenheit (15-24 degrees Celsius).\n\n6. Regular Pruning: For a bushier plant and to prevent blooming, prune regularly. Pinch off the center shoot after about six weeks to prevent early seeding. \n\n7. Pest Management: Keep an eye out for pests like aphids. If they appear, use a gentle insecticidal soap to keep them at bay.\n\nRemember, if a basil plant flowers, the strength of its leaves' flavor will lessen so it's best to keep removing the flowers and the tops of the stems to encourage new leaf growth.",
+    "timestamp": "2025-04-10T03:20:03.721425",
+    "origin": "gpt-4"
+  },
+  {
+    "query": "thank you",
+    "response": "You're welcome! If you have any other questions, feel free to ask.",
+    "timestamp": "2025-04-10T03:20:10.917152",
+    "origin": "gpt-4"
+  },
+  {
+    "query": "where is the capital of nepal",
+    "response": "The capital of Nepal is Kathmandu.",
+    "model_used": "gpt-3.5-turbo",
+    "timestamp": "2025-04-10T03:35:29.090801",
+    "origin": "gpt-3.5-turbo"
+  },
+  {
+    "query": "i was born there",
+    "response": "It's great to have a connection to a place where you were born! If you have any specific questions or need more information about that place, feel free to ask.",
+    "model_used": "gpt-3.5-turbo",
+    "timestamp": "2025-04-10T03:35:36.172545",
+    "origin": "gpt-3.5-turbo"
+  },
+  {
+    "query": "i like to write poems you know",
+    "response": "That's wonderful! Writing poems can be a great way to express yourself creatively. Do you have any favorite themes or styles you like to explore in your poetry?",
+    "model_used": "gpt-3.5-turbo",
+    "timestamp": "2025-04-10T03:36:06.683512",
+    "origin": "gpt-3.5-turbo"
+  },
+  {
+    "query": "do you know if i like writing poems?",
+    "response": "As an AI assistant, I don't have personal insights into your likes and dislikes. You are the best judge of whether you enjoy writing poems based on your own experiences and feelings.",
+    "model_used": "gpt-3.5-turbo",
+    "timestamp": "2025-04-10T03:36:16.726085",
+    "origin": "gpt-3.5-turbo"
+  },
+  {
+    "query": "\ud83d\udcdd i think productivity increases in silence.",
+    "response": "Many people find that working in a quiet environment can improve focus and productivity. Minimizing distractions from noise can help individuals concentrate on their tasks more effectively.",
+    "model_used": "gpt-3.5-turbo",
+    "timestamp": "2025-04-10T03:54:08.784653",
+    "origin": "gpt-3.5-turbo"
+  },
+  {
+    "query": "\ud83d\udcdd i dislike being rushed during meals.",
+    "response": "It's important to take your time and enjoy your meals at your own pace. Rushing can interfere with digestion and overall enjoyment of your food. Making an effort to eat mindfully and savor each bite can help you appreciate your meals more.",
+    "model_used": "gpt-3.5-turbo",
+    "timestamp": "2025-04-10T03:54:09.814475",
+    "origin": "gpt-3.5-turbo"
+  },
+  {
+    "query": "\ud83d\udcdd i\u2019m really into japanese philosophy right now.",
+    "response": "That's great to hear! Japanese philosophy offers a unique perspective on life and the world. Are there any specific concepts or philosophers that you're particularly interested in?",
+    "model_used": "gpt-3.5-turbo",
+    "timestamp": "2025-04-10T03:54:10.799462",
+    "origin": "gpt-3.5-turbo"
+  },
+  {
+    "query": "\ud83d\udcdd exit absorbexit",
+    "response": "I'm sorry, but your question is unclear. Could you please provide more details or clarify what you mean by \"exit absorbexit\"?",
+    "model_used": "gpt-4",
+    "timestamp": "2025-04-10T03:54:17.217044",
+    "origin": "gpt-4"
+  },
+  {
+    "query": "absorb mode on",
+    "response": "\"Absorb mode\" usually refers to the final stage of charging in a multi-stage battery charger. During the absorb stage, the charger provides the battery with a constant voltage and reduces the current to maintain this level, allowing the battery to saturate and reach its full charge without boiling or damaging the battery.",
+    "model_used": "gpt-4",
+    "timestamp": "2025-04-10T03:58:33.615194",
+    "origin": "gpt-4"
+  }
+]

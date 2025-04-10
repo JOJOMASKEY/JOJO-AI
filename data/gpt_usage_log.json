@@ -1,0 +1,42 @@
+[
+  {
+    "timestamp": "2025-04-10T04:17:54.471369",
+    "feature": "absorb_mode",
+    "model": "gpt-4",
+    "tokens_in": 93,
+    "tokens_out": 28,
+    "cost": 0.00363
+  },
+  {
+    "timestamp": "2025-04-10T04:21:48.174549",
+    "feature": "fallback",
+    "model": "gpt-3.5-turbo",
+    "tokens_in": 1,
+    "tokens_out": 7,
+    "cost": 1.2e-05
+  },
+  {
+    "timestamp": "2025-04-10T04:22:37.663943",
+    "feature": "absorb_mode",
+    "model": "gpt-4",
+    "tokens_in": 94,
+    "tokens_out": 28,
+    "cost": 0.00366
+  },
+  {
+    "timestamp": "2025-04-10T04:22:53.186859",
+    "feature": "fallback",
+    "model": "gpt-3.5-turbo",
+    "tokens_in": 7,
+    "tokens_out": 294,
+    "cost": 0.000452
+  },
+  {
+    "timestamp": "2025-04-10T04:22:53.590195",
+    "feature": "fallback",
+    "model": "gpt-3.5-turbo",
+    "tokens_in": 0,
+    "tokens_out": 7,
+    "cost": 1.1e-05
+  }
+]

@@ -12,5 +12,21 @@
     "name": [
         "nirdesh",
         "sam"
+    ],
+    "personal_preference": [
+        "Loves hiking at sunrise",
+        "Dislikes being rushed during meals",
+        "love coding at night",
+        "Loves minimal user interfaces"
+    ],
+    "personal_belief": [
+        "Thinks productivity increases in silence",
+        "creativity comes from silence",
+        "Thinks AI should evolve"
+    ],
+    "personal_interest": "Interested in Japanese philosophy",
+    "world_fact": [
+        "The Great Wall of China stretches more than 13,000 miles.",
+        "The Great Wall of China was built over centuries by different dynasties."
     ]
 }

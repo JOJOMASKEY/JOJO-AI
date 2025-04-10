@@ -1,52 +1,62 @@
 import re
-from datetime import datetime
 import dateparser
 
-def parse_reminder(text: str) -> dict:
-    # Normalize text
-    text = text.strip().lower()
+def parse_reminder(text):
+    text = text.lower().strip()
 
-    # Basic pattern: "remind me to [task] at [time]"
-    match = re.search(r"remind(?: me)? to (.+?) at (.+)", text)
-    if not match:
-        return {"task": None, "time": None, "ambiguous_time": None}
+    # Pattern: remind me to [task] at [time]
+    at_match = re.match(r"remind(?: me)? to (.+?) at (\d{1,2}(?::\d{2})?\s?(am|pm)?)", text)
+    if at_match:
+        task = at_match.group(1).strip()
+        time_str = at_match.group(2).strip()
+        parsed_time = dateparser.parse(time_str)
+        if parsed_time:
+            return {"task": task, "time": parsed_time.isoformat()}
+        else:
+            return None
 
-    task = match.group(1).strip()
-    time_str = match.group(2).strip()
-
-    # Handle ambiguous time like "6"
-    if re.fullmatch(r"\d{1,2}", time_str):
-        return {"task": task, "time": None, "ambiguous_time": time_str}
-
-    # Try to parse time
-    parsed_time = dateparser.parse(time_str, settings={"PREFER_DATES_FROM": "future"})
-    if parsed_time:
-        return {
-            "task": task,
-            "time": parsed_time.isoformat(),
-            "ambiguous_time": None
-        }
-
-    # Fallback if parse fails
-    return {"task": task, "time": None, "ambiguous_time": time_str}
-
-def parse_task(text: str) -> dict:
-    text = text.strip().lower()
-
-    match = re.search(r"(?:add a task to|task:)\s*(.+?)(?:\s+(?:in|by|on|at)\s+(.+))?$", text)
-    if not match:
-        return {"description": None, "time": None}
-
-    description = match.group(1).strip()
-    time_str = match.group(2).strip() if match.group(2) else None
-
-    parsed_time = None
-    if time_str:
-        parsed = dateparser.parse(time_str, settings={"PREFER_DATES_FROM": "future"})
+    # Pattern: remind me to [task] [when]
+    when_match = re.match(r"remind(?: me)? to (.+?) (tomorrow|next week|next month|in \d+ (minutes?|hours?|days?)|on \w+)", text)
+    if when_match:
+        task = when_match.group(1).strip()
+        when = when_match.group(2).strip()
+        parsed = dateparser.parse(when + " at 9am")  # default time
         if parsed:
-            parsed_time = parsed.isoformat()
+            return {"task": task, "time": parsed.isoformat()}
+        else:
+            return None
 
-    return {
-        "description": description,
-        "time": parsed_time
-    }
+    # Pattern: remind to [task] [when]
+    simple_match = re.match(r"remind(?: me)? to (.+)", text)
+    if simple_match:
+        task_and_time = simple_match.group(1).strip()
+        parsed = dateparser.parse(task_and_time)
+        if parsed:
+            return {"task": task_and_time, "time": parsed.isoformat()}
+
+        # Handle vague "at 2"
+        time_guess = re.match(r"(.+?) at (\d{1,2})$", task_and_time)
+        if time_guess:
+            return {
+                "task": time_guess.group(1).strip(),
+                "ambiguous_time": time_guess.group(2).strip()
+            }
+
+    return None
+
+
+def parse_task(text):
+    text = text.lower().strip()
+    match = re.match(r"(add a task to|task:)\s*(.+)", text)
+    if match:
+        desc = match.group(2).strip()
+        words = desc.split()
+        for i in range(len(words)):
+            maybe_time = " ".join(words[i:])
+            parsed = dateparser.parse(maybe_time)
+            if parsed:
+                return {
+                    "description": " ".join(words[:i]).strip(),
+                    "time": parsed.isoformat()
+                }
+        return {"description": desc, "time": None}
